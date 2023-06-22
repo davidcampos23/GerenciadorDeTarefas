@@ -1,7 +1,11 @@
+using System.Data;
+
 namespace GerenciadorDeTarefas
 {
     public partial class Criar : Form
     {
+        DataTable dt = new DataTable();
+
         public Criar()
         {
             InitializeComponent();
@@ -19,7 +23,11 @@ namespace GerenciadorDeTarefas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Olá, Mundo!");
+            NovoProjeto projeto = new NovoProjeto();
+            projeto.nomeProjeto = tb_nome.Text;
+            projeto.descProjeto = tb_desc.Text;
+
+            Banco.CriarProjeto(projeto);
         }
     }
 }

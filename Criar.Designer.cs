@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
+            tb_nome = new TextBox();
             label1 = new Label();
             label2 = new Label();
             button1 = new Button();
-            textBox2 = new TextBox();
+            tb_desc = new TextBox();
             SuspendLayout();
             // 
-            // textBox1
+            // tb_nome
             // 
-            textBox1.Location = new Point(69, 44);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(175, 23);
-            textBox1.TabIndex = 0;
-            textBox1.Text = "\r\n";
+            tb_nome.Location = new Point(69, 44);
+            tb_nome.Name = "tb_nome";
+            tb_nome.Size = new Size(175, 23);
+            tb_nome.TabIndex = 0;
+            tb_nome.Text = "\r\n";
             // 
             // label1
             // 
@@ -72,25 +72,25 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // textBox2
+            // tb_desc
             // 
-            textBox2.Location = new Point(69, 104);
-            textBox2.Multiline = true;
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(270, 197);
-            textBox2.TabIndex = 4;
-            textBox2.Text = "\r\n";
+            tb_desc.Location = new Point(69, 104);
+            tb_desc.Multiline = true;
+            tb_desc.Name = "tb_desc";
+            tb_desc.Size = new Size(270, 197);
+            tb_desc.TabIndex = 4;
+            tb_desc.Text = "\r\n";
             // 
             // Criar
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(425, 378);
-            Controls.Add(textBox2);
+            Controls.Add(tb_desc);
             Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox1);
+            Controls.Add(tb_nome);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "Criar";
             StartPosition = FormStartPosition.CenterScreen;
@@ -101,10 +101,10 @@
 
         #endregion
 
-        private TextBox textBox1;
+        private TextBox tb_nome;
         private Label label1;
         private Label label2;
         private Button button1;
-        private TextBox textBox2;
+        private TextBox tb_desc;
     }
 }
