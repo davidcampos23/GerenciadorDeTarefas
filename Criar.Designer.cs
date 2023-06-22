@@ -64,12 +64,13 @@
             // 
             // button1
             // 
-            button1.Location = new Point(145, 316);
+            button1.Location = new Point(145, 324);
             button1.Name = "button1";
             button1.Size = new Size(113, 30);
             button1.TabIndex = 3;
             button1.Text = "Criar Projeto";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // textBox2
             // 
@@ -80,7 +81,7 @@
             textBox2.TabIndex = 4;
             textBox2.Text = "\r\n";
             // 
-            // Form1
+            // Criar
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -91,7 +92,7 @@
             Controls.Add(label1);
             Controls.Add(textBox1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Name = "Form1";
+            Name = "Criar";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             ResumeLayout(false);
