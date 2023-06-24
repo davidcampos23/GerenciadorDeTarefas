@@ -13,7 +13,7 @@ namespace GerenciadorDeTarefas
         private static SQLiteConnection conexao;
 
         //Conectar ao Banco de Dados
-        public static SQLiteConnection conexaoBanco()
+        private static SQLiteConnection conexaoBanco()
         {
             conexao = new SQLiteConnection("Data Source=F:\\_Projetos_C#\\GerenciadorDeTarefas\\banco//bd_lista.db");
             conexao.Open();
@@ -21,7 +21,7 @@ namespace GerenciadorDeTarefas
             return conexao;
         }
 
-       /*public static DataTable obterTodosProjetos()
+        public static DataTable obterTodosProjetos()
         {
             SQLiteDataAdapter da = null;
             DataTable dt = new DataTable();
@@ -37,7 +37,7 @@ namespace GerenciadorDeTarefas
             {
                 throw ex;
             }
-        }*/
+        }
 
         //Criar novo Projeto no BD
         public static void CriarProjeto(NovoProjeto np)
@@ -59,7 +59,7 @@ namespace GerenciadorDeTarefas
             }catch(Exception ex)
             {
                 MessageBox.Show("Erro ao Gravar novo Projeto");
-                conexaoBanco().Close();
+
             }
         }
 
@@ -75,7 +75,9 @@ namespace GerenciadorDeTarefas
             cmd.CommandText = "SELECT nome_Projeto FROM tb_Projetos WHERE nome_Projeto =' "+np.nomeProjeto+"' ";
             da = new SQLiteDataAdapter(cmd.CommandText, conexaoBanco());
             da.Fill(dt);
-            if(dt.Rows.Count > 0)
+            conexaoBanco().Close();
+
+            if (dt.Rows.Count > 0)
             {
                 res = true;
             }
@@ -83,8 +85,50 @@ namespace GerenciadorDeTarefas
             {
                 res = false;
             }
-
+         
             return res;
+        }
+
+        //Colsultar Projetos
+        public static DataTable consulta(string sql)
+        {
+            SQLiteDataAdapter da = null;
+            DataTable dt = new DataTable();
+            try
+            {
+                using (var cmd = conexaoBanco().CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    da = new SQLiteDataAdapter(cmd.CommandText, conexaoBanco());
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //Pegar a quantidade de rows da tabela
+        public static int tb_Rows()
+        {
+            int quant = 0;
+            SQLiteDataAdapter da = null;
+            try
+            {
+                using (var cmd = conexaoBanco().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT COUNT(*) FROM tb_Projetos";
+                    da = new SQLiteDataAdapter(cmd.CommandText, conexaoBanco());
+                    quant = Convert.ToInt32(cmd.ExecuteScalar());
+                    return quant;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

@@ -33,6 +33,7 @@
             label2 = new Label();
             button1 = new Button();
             tb_desc = new TextBox();
+            button2 = new Button();
             SuspendLayout();
             // 
             // tb_nome
@@ -64,7 +65,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(145, 324);
+            button1.Location = new Point(226, 321);
             button1.Name = "button1";
             button1.Size = new Size(113, 30);
             button1.TabIndex = 3;
@@ -81,11 +82,22 @@
             tb_desc.TabIndex = 4;
             tb_desc.Text = "\r\n";
             // 
+            // button2
+            // 
+            button2.Location = new Point(69, 321);
+            button2.Name = "button2";
+            button2.Size = new Size(113, 30);
+            button2.TabIndex = 5;
+            button2.Text = "Cancelar";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Criar
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(425, 378);
+            ClientSize = new Size(401, 378);
+            Controls.Add(button2);
             Controls.Add(tb_desc);
             Controls.Add(button1);
             Controls.Add(label2);
@@ -94,7 +106,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "Criar";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "Criar Projeto";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -106,5 +118,6 @@
         private Label label2;
         private Button button1;
         private TextBox tb_desc;
+        private Button button2;
     }
 }
