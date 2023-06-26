@@ -28,6 +28,7 @@ namespace GerenciadorDeTarefas
             projeto.descProjeto = tb_desc.Text;
 
             Banco.CriarProjeto(projeto);
+            this.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)

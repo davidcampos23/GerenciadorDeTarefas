@@ -63,29 +63,48 @@ namespace GerenciadorDeTarefas
             }
         }
 
+        //Excluir Projeto
+        public static void excluirProjeto(string proj)
+        {
+            NovoProjeto np = new NovoProjeto();
+            np.nomeProjeto = proj;
+
+            if(!existeProjeto(np))
+            {
+                MessageBox.Show("Não existe Projeto");
+                return;
+            }
+
+            try
+            {
+                using (var cmd = conexaoBanco().CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM tb_Projetos WHERE nome_Projeto = @nomeP";
+                    cmd.Parameters.AddWithValue("@nomeP", proj);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Projeto Excluido!");
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         //Verificar se já Existe Projeto com mesmo Nome
         public static bool existeProjeto(NovoProjeto np)
         {
             bool res;
-            SQLiteDataAdapter da = null;
-            DataTable dt = new DataTable();
 
-            var cmd = conexaoBanco().CreateCommand();
-            cmd.CommandText = "SELECT nome_Projeto FROM tb_Projetos WHERE nome_Projeto =' "+np.nomeProjeto+"' ";
-            da = new SQLiteDataAdapter(cmd.CommandText, conexaoBanco());
-            da.Fill(dt);
-            conexaoBanco().Close();
-
-            if (dt.Rows.Count > 0)
+            using (SQLiteCommand cmd = conexaoBanco().CreateCommand())
             {
-                res = true;
+                cmd.CommandText = "SELECT nome_Projeto FROM tb_Projetos WHERE nome_Projeto = @np";
+                cmd.Parameters.AddWithValue("@np", np.nomeProjeto);
+                using(SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    res = reader.HasRows;
+                }
             }
-            else
-            {
-                res = false;
-            }
-         
             return res;
         }
 

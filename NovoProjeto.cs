@@ -9,7 +9,7 @@ namespace GerenciadorDeTarefas
     internal class NovoProjeto
     {
         public Int32 id;
-        public String nomeProjeto;
+        public string nomeProjeto;
         public string descProjeto;
     }
 }

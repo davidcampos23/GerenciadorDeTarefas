@@ -17,12 +17,7 @@ namespace GerenciadorDeTarefas
         public TelaProjetos()
         {
             InitializeComponent();
-
             MostrarProjetos();
-
-            /*
-            N_Proj.Text = dt.Rows[0].Field<string>("nome_Projeto");
-            desc_Proj.Text = dt.Rows[0].Field<string>("desc_Projeto");*/
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -34,6 +29,7 @@ namespace GerenciadorDeTarefas
         {
             Criar criarP = new Criar();
             criarP.ShowDialog();
+            Recarregar();
         }
 
         private void TelaProjetos_Load(object sender, EventArgs e)
@@ -115,6 +111,28 @@ namespace GerenciadorDeTarefas
         private void desc_Proj_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void ExcluirProj_Click(object sender, EventArgs e)
+        {
+            ExcluirP exP = new ExcluirP();
+            exP.ShowDialog();
+            Recarregar();
+        }
+
+        public void Recarregar()
+        {
+            for (int i = this.Controls.Count - 1; i >= 3; i--)
+            {
+                Control controle = this.Controls[i];
+
+                // Verificar se é a label ou um dos botões que você deseja remover
+                if (controle is Label || controle is TextBox)
+                {
+                    this.Controls.RemoveAt(i); // Remover o controle
+                }
+            }
+            MostrarProjetos();
         }
     }
 }

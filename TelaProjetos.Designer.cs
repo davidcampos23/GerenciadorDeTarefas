@@ -64,6 +64,7 @@
             ExcluirProj.TabIndex = 5;
             ExcluirProj.Text = "Excluir Projeto";
             ExcluirProj.UseVisualStyleBackColor = true;
+            ExcluirProj.Click += ExcluirProj_Click;
             // 
             // TelaProjetos
             // 
