@@ -20,9 +20,13 @@ namespace GerenciadorDeTarefas
             MostrarProjetos();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void label_Click(object sender, EventArgs e)
         {
-
+            Projeto projeto = new Projeto();
+            this.Hide();
+            projeto.ShowDialog();
+            this.Show();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -74,6 +78,8 @@ namespace GerenciadorDeTarefas
                 label.Size = new Size(Lwidth, Lheight);
                 label.Location = new Point(LposX, LposY);
                 label.Font = new Font(label.Font.FontFamily, LSize, label.Font.Style);
+                label.Click += label_Click;
+                
 
                 this.Controls.Add(label);
 

@@ -21,6 +21,8 @@ namespace GerenciadorDeTarefas
             return conexao;
         }
 
+        //Tabela de Projetos ===========================================================================
+
         public static DataTable obterTodosProjetos()
         {
             SQLiteDataAdapter da = null;
@@ -149,5 +151,78 @@ namespace GerenciadorDeTarefas
                 throw ex;
             }
         }
+
+
+        //Tabela de tarefas ============================================================================
+
+        //Criar tarefa no bd
+        public static void criarTarefas(NovoProjeto np)
+        {
+            try
+            {
+                var cmd = conexaoBanco().CreateCommand();
+                cmd.CommandText = "INSERT INTO tb_Tarefas (nome_Tarefa, desc_Tarefa) VALUES (@nome,@desc)";
+                cmd.Parameters.AddWithValue("@nome", np.nomeTarefa);
+                cmd.Parameters.AddWithValue("@desc", np.descTarefa);
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Nova Tarefa Inserida");
+                conexaoBanco().Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao Gravar nova Tarefa!");
+
+            }
+        }
+
+        //Excluir Tarefa no bd
+        public static void excluirTarefa(string proj) 
+        {
+            NovoProjeto np = new NovoProjeto();
+            np.nomeTarefa = proj;
+
+            if (!existeTarefa(np))
+            {
+                MessageBox.Show("Não existe Tarefa");
+                return;
+            }
+
+            try
+            {
+                using (var cmd = conexaoBanco().CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM tb_Tarefas WHERE nome_Tarefa = @nomeP";
+                    cmd.Parameters.AddWithValue("@nomeP", proj);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Tarefa Excluida!");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //Verificar se já Existe Projeto com mesmo Nome
+        public static bool existeTarefa(NovoProjeto np)
+        {
+            bool res;
+
+            using (SQLiteCommand cmd = conexaoBanco().CreateCommand())
+            {
+                cmd.CommandText = "SELECT nome_Tarefa FROM tb_Tarefas WHERE nome_Tarefa = @np";
+                cmd.Parameters.AddWithValue("@np", np.nomeTarefa);
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    res = reader.HasRows;
+                }
+            }
+            return res;
+        }
+
+       
+
+        
+        
     }
 }

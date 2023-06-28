@@ -42,7 +42,6 @@
             label1.Size = new Size(81, 25);
             label1.TabIndex = 0;
             label1.Text = "Projetos";
-            label1.Click += label1_Click;
             // 
             // CriarProj
             // 
