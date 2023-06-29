@@ -14,7 +14,7 @@ namespace GerenciadorDeTarefas
         public string descProjeto;
 
         public Int32 idTarefa;
-        public string descTarefa;
+        public Int32 foreingKay;
         public string nomeTarefa;
     }
 }

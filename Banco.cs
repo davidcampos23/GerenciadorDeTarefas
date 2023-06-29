@@ -110,7 +110,7 @@ namespace GerenciadorDeTarefas
             return res;
         }
 
-        //Colsultar Projetos
+        //Colsultar Projetos e Tarefas
         public static DataTable consulta(string sql)
         {
             SQLiteDataAdapter da = null;
@@ -158,12 +158,17 @@ namespace GerenciadorDeTarefas
         //Criar tarefa no bd
         public static void criarTarefas(NovoProjeto np)
         {
+            if (existeTarefa(np))
+            {
+                MessageBox.Show("Tarefa Já Existe");
+                return;
+            }
             try
             {
                 var cmd = conexaoBanco().CreateCommand();
-                cmd.CommandText = "INSERT INTO tb_Tarefas (nome_Tarefa, desc_Tarefa) VALUES (@nome,@desc)";
+                cmd.CommandText = "INSERT INTO tb_Tarefas (nome_Tarefa, id_projeto) VALUES (@nome,@fk)";
                 cmd.Parameters.AddWithValue("@nome", np.nomeTarefa);
-                cmd.Parameters.AddWithValue("@desc", np.descTarefa);
+                cmd.Parameters.AddWithValue("@fk", np.foreingKay);
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Nova Tarefa Inserida");
                 conexaoBanco().Close();
@@ -220,9 +225,47 @@ namespace GerenciadorDeTarefas
             return res;
         }
 
-       
+        //Pegar a quantidade de Tarefas da tabela
+        public static int tb_QTaf(int fk)
+        {
+            int quant = 0;
+            SQLiteDataAdapter da = null;
+            try
+            {
+                using (var cmd = conexaoBanco().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT COUNT(*) FROM tb_Tarefas WHERE id_projeto = @id";
+                    cmd.Parameters.AddWithValue("@id", fk);
+                    cmd.ExecuteNonQuery();
+                    da = new SQLiteDataAdapter(cmd.CommandText, conexaoBanco());
+                    quant = Convert.ToInt32(cmd.ExecuteScalar());
+                    return quant;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-        
-        
+        //Pegar Ponto X e Ponto Y
+        public static void Location(string nome, int posX, int posY)
+        {
+            try
+            {
+                using (var cmd = conexaoBanco().CreateCommand())
+                {
+                    cmd.CommandText = "UPDATE tb_Tarefas SET posX = @posx, posY = @posy WHERE nome_Tarefa = @nome";
+                    cmd.Parameters.AddWithValue("@posx", posX);
+                    cmd.Parameters.AddWithValue("@posy", posY);
+                    cmd.Parameters.AddWithValue("@nome", nome);
+                    cmd.ExecuteNonQuery();
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

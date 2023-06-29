@@ -22,11 +22,13 @@ namespace GerenciadorDeTarefas
 
         private void label_Click(object sender, EventArgs e)
         {
-            Projeto projeto = new Projeto();
+            Label label = (Label)sender;
+            int idProjeto = Convert.ToInt32(label.Tag);
+
+            Projeto projeto = new Projeto(idProjeto);
             this.Hide();
             projeto.ShowDialog();
             this.Show();
-            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -78,6 +80,7 @@ namespace GerenciadorDeTarefas
                 label.Size = new Size(Lwidth, Lheight);
                 label.Location = new Point(LposX, LposY);
                 label.Font = new Font(label.Font.FontFamily, LSize, label.Font.Style);
+                label.Tag = dt.Rows[i].Field<Int64>("id_Projeto");
                 label.Click += label_Click;
                 
 
@@ -99,6 +102,7 @@ namespace GerenciadorDeTarefas
                 textBox.Size = new Size(Twidth, Theight);
                 textBox.Location = new Point(TposX, TposY);
                 textBox.Font = new Font(textBox.Font.FontFamily, Tsize, textBox.Font.Style);
+                textBox.ReadOnly = true;
 
                 this.Controls.Add(textBox);
 
@@ -119,6 +123,7 @@ namespace GerenciadorDeTarefas
 
         }
 
+        //Mostra o Form de excluir Projetos
         private void ExcluirProj_Click(object sender, EventArgs e)
         {
             ExcluirP exP = new ExcluirP();
@@ -126,6 +131,7 @@ namespace GerenciadorDeTarefas
             Recarregar();
         }
 
+        //Recarrega os Projetos na Tela
         public void Recarregar()
         {
             for (int i = this.Controls.Count - 1; i >= 3; i--)
