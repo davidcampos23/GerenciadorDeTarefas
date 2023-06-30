@@ -31,6 +31,17 @@ namespace GerenciadorDeTarefas
             this.Show();
         }
 
+        private void textBox_Click(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            int idProjeto = Convert.ToInt32(textBox.Tag);
+
+            Projeto projeto = new Projeto(idProjeto);
+            this.Hide();
+            projeto.ShowDialog();
+            this.Show();
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             Criar criarP = new Criar();
@@ -80,9 +91,11 @@ namespace GerenciadorDeTarefas
                 label.Size = new Size(Lwidth, Lheight);
                 label.Location = new Point(LposX, LposY);
                 label.Font = new Font(label.Font.FontFamily, LSize, label.Font.Style);
+                label.ForeColor = Color.LightGreen;
+                label.Cursor = Cursors.Hand;
                 label.Tag = dt.Rows[i].Field<Int64>("id_Projeto");
                 label.Click += label_Click;
-                
+
 
                 this.Controls.Add(label);
 
@@ -102,7 +115,14 @@ namespace GerenciadorDeTarefas
                 textBox.Size = new Size(Twidth, Theight);
                 textBox.Location = new Point(TposX, TposY);
                 textBox.Font = new Font(textBox.Font.FontFamily, Tsize, textBox.Font.Style);
+                textBox.Tag = dt.Rows[i].Field<Int64>("id_Projeto");
                 textBox.ReadOnly = true;
+                textBox.Cursor = Cursors.Hand;
+                textBox.BackColor = Color.FromArgb(39, 39, 58);
+                textBox.ForeColor = Color.White;
+                textBox.BorderStyle = BorderStyle.None;
+
+                textBox.Click += textBox_Click;
 
                 this.Controls.Add(textBox);
 
@@ -134,7 +154,7 @@ namespace GerenciadorDeTarefas
         //Recarrega os Projetos na Tela
         public void Recarregar()
         {
-            for (int i = this.Controls.Count - 1; i >= 3; i--)
+            for (int i = this.Controls.Count - 1; i >= 1; i--)
             {
                 Control controle = this.Controls[i];
 
@@ -146,5 +166,6 @@ namespace GerenciadorDeTarefas
             }
             MostrarProjetos();
         }
+
     }
 }

@@ -19,9 +19,9 @@ namespace GerenciadorDeTarefas
         private Point startPoint;
 
         //TextBox que cria uma nova tarefa
-        TextBox newTaf = new TextBox();
+        private TextBox newTaf;
         //TextBoc que exclui uma Tarefa
-        TextBox delTaf = new TextBox();
+        private TextBox delTaf;
 
         //Limitardor de TextBox
         private bool tbxNew = false;
@@ -68,7 +68,7 @@ namespace GerenciadorDeTarefas
         private void tarefa_MouseUp(object sender, MouseEventArgs e)
         {
             isDragging = false;
-            
+
             System.Windows.Forms.Label tarefa = (System.Windows.Forms.Label)sender;
             string nome = tarefa.Text;
             int novaPosX = tarefa.Left; // Obtém a nova coordenada X
@@ -78,7 +78,7 @@ namespace GerenciadorDeTarefas
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void voltar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -88,6 +88,7 @@ namespace GerenciadorDeTarefas
             if (e.KeyCode == Keys.Enter)
             {
                 NovoProjeto np = new NovoProjeto();
+                TextBox newTaf = (TextBox)sender;
                 np.nomeTarefa = newTaf.Text;
                 np.foreingKay = fk;
                 Banco.criarTarefas(np);
@@ -102,6 +103,7 @@ namespace GerenciadorDeTarefas
         {
             if (e.KeyCode == Keys.Enter)
             {
+                TextBox delTaf = (TextBox)sender;
                 Banco.excluirTarefa(delTaf.Text);
                 this.Controls.Remove(delTaf);
                 tbxDel = false;
@@ -113,15 +115,32 @@ namespace GerenciadorDeTarefas
         {
             if (!tbxNew)
             {
-                newTaf.Location = new Point(95, 567);
-                newTaf.Width = 111;
-                newTaf.Height = 23;
-                newTaf.Text = "Nome da Tarefa";
+                if (!this.Controls.Contains(newTaf))
+                {
+                    newTaf = new TextBox();
+                    newTaf.Location = new Point(95, 575);
+                    newTaf.Size = new Size(128, 30);
+                    newTaf.Text = "Criar Tarefa";
+                    newTaf.BackColor = Color.FromArgb(39, 39, 58);
+                    newTaf.ForeColor = Color.White;
+                    newTaf.BorderStyle = BorderStyle.None;
+                    newTaf.Multiline = true;
+                    newTaf.Font = new Font(newTaf.Font.FontFamily, 12, newTaf.Font.Style);
 
-                newTaf.KeyDown += newTaf_KeyDown;
+                    newTaf.KeyDown += newTaf_KeyDown;
 
-                this.Controls.Add(newTaf);
+                    this.Controls.Add(newTaf);
+
+                }
                 tbxNew = true;
+                tbxDel = false;
+            }
+            else
+            {
+
+                this.Controls.Remove(newTaf);
+                tbxNew = false;
+
             }
         }
 
@@ -129,24 +148,37 @@ namespace GerenciadorDeTarefas
         {
             if (!tbxDel)
             {
-                delTaf.Location = new Point(95, 612);
-                delTaf.Size = new Size(111, 23);
-                delTaf.Text = "Deletar Tarefa";
+                delTaf = new TextBox();
+                if (!this.Controls.Contains(delTaf))
+                {
+                    delTaf.Location = new Point(95, 620);
+                    delTaf.Width = 128;
+                    delTaf.Height = 30;
+                    delTaf.Text = "Deletar Tarefa";
+                    delTaf.BackColor = Color.FromArgb(39, 39, 58);
+                    delTaf.ForeColor = Color.White;
+                    delTaf.BorderStyle = BorderStyle.None;
+                    delTaf.Multiline = true;
+                    delTaf.Font = new Font(delTaf.Font.FontFamily, 12, delTaf.Font.Style);
 
-                delTaf.KeyDown += delTaf_KeyDown;
+                    delTaf.KeyDown += delTaf_KeyDown;
 
-                this.Controls.Add(delTaf);
+                    this.Controls.Add(delTaf);
+                }
                 tbxDel = true;
+                tbxNew = false;
             }
+            else
+            {
+                this.Controls.Remove(delTaf);
+                tbxDel = false;
+            }
+
         }
 
         private void mostrarTarefas()
         {
             //Propriedades Label
-            int posX = 0;
-            int posY = 0;
-            int width = 200;
-            int height = 30;
             int size = 11;
 
             int tamanhoA = Banco.tb_QTaf(fk);
@@ -160,49 +192,79 @@ namespace GerenciadorDeTarefas
                 array[i] = dt.Rows[i].Field<string>("nome_Tarefa");
                 System.Windows.Forms.Label tarefa = new System.Windows.Forms.Label();
 
+                tarefa.Name = "tarefa";
                 tarefa.Text = array[i];
-                tarefa.Size = new Size(width, height);
+                tarefa.AutoSize = true;
+                tarefa.Width = tarefa.PreferredWidth;
+                tarefa.Height = tarefa.PreferredHeight;
                 tarefa.Font = new Font(tarefa.Font.FontFamily, size, tarefa.Font.Style);
-                tarefa.BackColor = Color.Transparent;
-
-                if (!dt.Rows[i].IsNull("posX") && !dt.Rows[i].IsNull("posY"))
-                {
-                    posX = Convert.ToInt32(dt.Rows[i].Field<Int64>("posX"));
-                    posY = Convert.ToInt32(dt.Rows[i].Field<Int64>("posY"));
-
-                }
-
-                tarefa.Location = new Point(posX, posY);
+                //tarefa.BackColor = Color.Transparent;
+                tarefa.ForeColor = Color.White;
 
                 tarefa.MouseDown += tarefa_MouseDown;
                 tarefa.MouseMove += tarefa_MouseMove;
                 tarefa.MouseUp += tarefa_MouseUp;
 
-                this.Controls.Add(tarefa);
-
-                posX += width + 70;
-                if ((i + 1) % 5 == 0)
+                if (!dt.Rows[i].IsNull("posX") && !dt.Rows[i].IsNull("posY"))
                 {
-                    posX = 20;
-                    posY += height + 70;
+                    int posXb = Convert.ToInt32(dt.Rows[i].Field<Int64>("posX"));
+                    int posYb = Convert.ToInt32(dt.Rows[i].Field<Int64>("posY"));
+                    tarefa.Location = new Point(posXb, posYb);
                 }
+                else
+                {
+                    int posX = 230;
+                    int posY = 550;
+                    Point pos = new Point(posX, posY);
 
+                    while (ExisteControleNaPosicao(pos))
+                    {
+                        posX += tarefa.Width + 30;
+                        if (posX >= 950)
+                        {
+                            posX = tarefa.Height + 230;
+                            posY += 20;
+                        }
+                        pos = new Point(posX, posY);
+                    }
+
+                    tarefa.Location = pos;
+                }
+                this.Controls.Add(tarefa);
+                tarefa.BringToFront();
             }
+        }
+
+        private bool ExisteControleNaPosicao(Point posicao)
+        {
+            foreach (Control controle in this.Controls)
+            {
+                if (controle.Location == posicao)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void Recarregar()
         {
-            for (int i = this.Controls.Count - 1; i >= 12; i--)
+            for (int i = this.Controls.Count - 1; i >= 0; i--)
             {
                 Control controle = this.Controls[i];
 
                 // Verificar se é a label ou um dos botões que você deseja remover
-                if (controle is System.Windows.Forms.Label)
+                if (controle.Name == "tarefa")
                 {
                     this.Controls.RemoveAt(i); // Remover o controle
                 }
             }
             mostrarTarefas();
+        }
+
+        private void Projeto_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

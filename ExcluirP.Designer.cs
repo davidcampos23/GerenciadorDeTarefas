@@ -36,35 +36,49 @@
             // 
             // bCancelar
             // 
+            bCancelar.BackColor = Color.FromArgb(39, 39, 58);
+            bCancelar.FlatAppearance.BorderSize = 0;
+            bCancelar.FlatStyle = FlatStyle.Flat;
+            bCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            bCancelar.ForeColor = Color.LightGreen;
             bCancelar.Location = new Point(35, 154);
             bCancelar.Name = "bCancelar";
             bCancelar.Size = new Size(83, 23);
             bCancelar.TabIndex = 1;
             bCancelar.Text = "Cancelar";
-            bCancelar.UseVisualStyleBackColor = true;
+            bCancelar.UseVisualStyleBackColor = false;
             bCancelar.Click += bCancelar_Click;
             // 
             // bExcluir
             // 
+            bExcluir.BackColor = Color.FromArgb(39, 39, 58);
+            bExcluir.FlatAppearance.BorderSize = 0;
+            bExcluir.FlatStyle = FlatStyle.Flat;
+            bExcluir.ForeColor = Color.LightGreen;
             bExcluir.Location = new Point(134, 154);
             bExcluir.Name = "bExcluir";
             bExcluir.Size = new Size(83, 23);
             bExcluir.TabIndex = 2;
             bExcluir.Text = "Excluir";
-            bExcluir.UseVisualStyleBackColor = true;
+            bExcluir.UseVisualStyleBackColor = false;
             bExcluir.Click += bExcluir_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(35, 57);
+            label1.ForeColor = Color.LightGreen;
+            label1.Location = new Point(35, 63);
             label1.Name = "label1";
             label1.Size = new Size(83, 15);
             label1.TabIndex = 3;
             label1.Text = "Excluir Projeto";
+            label1.Click += label1_Click;
             // 
             // textBox1
             // 
+            textBox1.BackColor = Color.FromArgb(39, 39, 58);
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.ForeColor = Color.White;
             textBox1.Location = new Point(35, 90);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(182, 23);
@@ -74,6 +88,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(51, 51, 76);
             ClientSize = new Size(256, 214);
             Controls.Add(textBox1);
             Controls.Add(label1);
