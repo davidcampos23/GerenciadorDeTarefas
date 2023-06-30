@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TelaProjetos));
             label1 = new Label();
             CriarProj = new Button();
             ExcluirProj = new Button();
@@ -107,8 +108,8 @@
             BackColor = Color.FromArgb(51, 51, 76);
             ClientSize = new Size(1006, 671);
             Controls.Add(panelMenu);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "TelaProjetos";
-            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TelaProjetos";
             Load += TelaProjetos_Load;
