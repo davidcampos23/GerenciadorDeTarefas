@@ -11,11 +11,16 @@ namespace GerenciadorDeTarefas
     internal class Banco
     {
         private static SQLiteConnection conexao;
+        public static string caminhoEXE = System.Environment.CurrentDirectory;
+        public static string nomeBanco = "bd_lista.db";
+        public static string caminhoPastaBD = caminhoEXE+@"\banco\";
+        public static string caminhoRelativo = "Data Source="+caminhoPastaBD+nomeBanco;
+     
 
         //Conectar ao Banco de Dados
         private static SQLiteConnection conexaoBanco()
         {
-            conexao = new SQLiteConnection("Data Source=F:\\_Projetos_C#\\GerenciadorDeTarefas\\banco//bd_lista.db");
+            conexao = new SQLiteConnection(caminhoRelativo);
             conexao.Open();
 
             return conexao;
@@ -44,7 +49,7 @@ namespace GerenciadorDeTarefas
         //Criar novo Projeto no BD
         public static void CriarProjeto(NovoProjeto np)
         {
-            if(existeProjeto(np))
+            if (existeProjeto(np))
             {
                 MessageBox.Show("Projeto Já Existe");
                 return;
@@ -60,7 +65,7 @@ namespace GerenciadorDeTarefas
                 conexaoBanco().Close();
             }catch(Exception ex)
             {
-                MessageBox.Show("Erro ao Gravar novo Projeto");
+                MessageBox.Show("Erro ao Gravar novo Projeto:" + ex);
 
             }
         }
@@ -175,7 +180,7 @@ namespace GerenciadorDeTarefas
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao Gravar nova Tarefa!");
+                MessageBox.Show($"Erro ao Gravar nova Tarefa: + {ex}");
 
             }
         }
